@@ -11,6 +11,7 @@ resource "aws_vpc" "main" {
         }
 }
 
+#1st subenet composed of 128 hosts
 resource "aws_subnet" "public_mch1" {
         vpc_id = aws_vpc.main.id
         cidr_block = "10.0.0.0/25"
@@ -20,6 +21,7 @@ resource "aws_subnet" "public_mch1" {
         }
 }
 
+#2nd subnet compsed of 128 hosts
 resource "aws_subnet" "public_mch2" {
         vpc_id = aws_vpc.main.id
         cidr_block = "10.0.0.128/25"
