@@ -43,6 +43,23 @@ resource "aws_key_pair" "dev" {
 	public_key = var.MY_SSH_KEY
 }
 
+resource "aws_route_table" "routagetable_mch" {
+	vpc_id = aws_vpc.main.id
+	route {
+		#no matter the ip
+		cidr_block = "0.0.0.0/0"
+		gateway_id = aws_internet_gateway.gate_mch.id
+	}
+	tags = {
+		Name = "route_table_mch"
+	}
+}
+
+resource "aws_route_table_association" "route_asso_subnet1" {
+	subnet_id = aws_subnet.public_mch1.id
+
+}
+
 resource "aws_security_group" "micka_instance" {
 	name = "secumicka"
 
@@ -74,7 +91,7 @@ resource "aws_instance" "ec2" {
 	instance_type = "t2.micro"
 	key_name = "mch_rsa_key"
 	vpc_security_group_ids = [aws_security_group.micka_instance.id]
-	
+		
 	tags = {
 		Name = "${terraform.workspace == "prod" ? "prod-ec2" : "default-ec2"}"
 	}
